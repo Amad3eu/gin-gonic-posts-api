@@ -8,6 +8,7 @@ import (
 	"github.com/Amad3eu/gin-gonic-posts-api/internal/post"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 var service post.Service
@@ -16,6 +17,20 @@ func Configure() {
 	service = post.Service{
 		Repository: post.Repository{
 			Conn: database.Conn,
+		},
+	}
+}
+
+type Handler struct {
+	service post.Service
+}
+
+func NewHandler(conn *pgxpool.Pool) *Handler {
+	return &Handler{
+		service: post.Service{
+			Repository: post.Repository{
+				Conn: conn,
+			},
 		},
 	}
 }
@@ -56,7 +71,7 @@ func DeletePosts(ctx *gin.Context) {
 	ctx.JSON(204, nil)
 }
 
-func GetPosts(ctx *gin.Context) {
+func GetPost(ctx *gin.Context) {
 	param := ctx.Param("id")
 	id, err := uuid.Parse(param)
 	if err != nil {
@@ -77,4 +92,14 @@ func GetPosts(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200, p)
+}
+
+func GetPosts(ctx *gin.Context) {
+	posts, err := service.FindAll()
+	if err != nil {
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, posts)
 }

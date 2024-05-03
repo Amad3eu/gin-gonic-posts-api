@@ -1,0 +1,19 @@
+
+### Criando um novo post
+POST http://localhost:8080/posts HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "body": "Isso é um teste."
+}
+
+### Deletar um post
+DELETE http://localhost:8080/posts/1 HTTP/1.1
+
+### Buscar um post especifico
+GET http://localhost:8080/posts/0f860da4-4f4d-4cad-840f-0221f053ef22 HTTP/1.1
+
+
+### Buscar todos os posts
+GET http://localhost:8080/posts/ HTTP/1.1

@@ -35,3 +35,7 @@ func (s Service) Delete(id uuid.UUID) error {
 func (s Service) FindOneByID(ID uuid.UUID) (internal.Post, error) {
 	return s.Repository.FindOneByID(ID)
 }
+
+func (s Service) FindAll() ([]internal.Post, error) {
+	return s.Repository.FindAll()
+}
