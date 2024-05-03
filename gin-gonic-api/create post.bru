@@ -1,0 +1,18 @@
+meta {
+  name: create post
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/posts/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "Amad3eu",
+    "body": "Um texto muito legal"
+  }
+}

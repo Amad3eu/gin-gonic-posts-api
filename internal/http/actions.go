@@ -56,7 +56,7 @@ func DeletePosts(ctx *gin.Context) {
 	ctx.JSON(204, nil)
 }
 
-func GetPosts(ctx *gin.Context) {
+func GetPost(ctx *gin.Context) {
 	param := ctx.Param("id")
 	id, err := uuid.Parse(param)
 	if err != nil {
@@ -77,4 +77,14 @@ func GetPosts(ctx *gin.Context) {
 	}
 
 	ctx.JSON(200, p)
+}
+
+func GetPosts(ctx *gin.Context) {
+	posts, err := service.FindAll()
+	if err != nil {
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(200, posts)
 }
