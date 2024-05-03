@@ -8,6 +8,7 @@ import (
 	"github.com/Amad3eu/gin-gonic-posts-api/internal/post"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 var service post.Service
@@ -16,6 +17,20 @@ func Configure() {
 	service = post.Service{
 		Repository: post.Repository{
 			Conn: database.Conn,
+		},
+	}
+}
+
+type Handler struct {
+	service post.Service
+}
+
+func NewHandler(conn *pgxpool.Pool) *Handler {
+	return &Handler{
+		service: post.Service{
+			Repository: post.Repository{
+				Conn: conn,
+			},
 		},
 	}
 }
